@@ -9,10 +9,19 @@ function Login() {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/login", data);
+      const res = await axios.post(
+        "https://react-auth-system-14w2.onrender.com/login",
+        data
+      );
+
       localStorage.setItem("token", res.data.token);
       alert("Login Successful");
-    } catch {
+
+      // 👉 optional redirect
+      window.location.href = "/dashboard";
+
+    } catch (error) {
+      console.error(error);
       alert("Login Failed");
     }
     setLoading(false);
@@ -23,10 +32,19 @@ function Login() {
       <h2>Login</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("email", { required: true })} placeholder="Email" />
+        <input
+          {...register("email", { required: true })}
+          placeholder="Email"
+        />
         <br /><br />
-        <input {...register("password", { required: true })} type="password" placeholder="Password" />
+
+        <input
+          {...register("password", { required: true })}
+          type="password"
+          placeholder="Password"
+        />
         <br /><br />
+
         <button type="submit">
           {loading ? "Loading..." : "Login"}
         </button>
