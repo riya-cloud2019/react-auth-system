@@ -8,27 +8,36 @@ function Login() {
 
   const onSubmit = async (data) => {
     setLoading(true);
+
     try {
       const res = await axios.post(
         "https://react-auth-system-14w2.onrender.com/login",
-        data
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
+      // ✅ token store
       localStorage.setItem("token", res.data.token);
-      alert("Login Successful");
 
-      // 👉 optional redirect
+      alert("Login Successful ✅");
+
+      // ✅ redirect to dashboard
       window.location.href = "/dashboard";
 
     } catch (error) {
-      console.error(error);
-      alert("Login Failed");
+      console.error("Login Error:", error);
+      alert("Login Failed ❌");
     }
+
     setLoading(false);
   };
 
   return (
-    <div>
+    <div style={{ textAlign: "center", marginTop: "100px" }}>
       <h2>Login</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
